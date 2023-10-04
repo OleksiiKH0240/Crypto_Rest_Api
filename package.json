@@ -1,7 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "generate": "drizzle-kit generate:mysql"
+    "generate": "drizzle-kit generate:mysql",
+    "start": "node --loader ts-node/esm .\\Crypto_Rest_API.ts"
   },
   "dependencies": {
     "@types/express": "^4.17.18",

@@ -83,11 +83,23 @@ async function getCryptoCurrencyRate(cryptoCurrencySymbol: string = "BTC", marke
         case "15mins":
             timeMultiplier = 3;
             break;
+        case "30mins":
+            timeMultiplier = 6;
+            break;
         case "1hour":
             timeMultiplier = 12;
             break;
+        case "3hours":
+            timeMultiplier = 36;
+            break;
         case "4hours":
             timeMultiplier = 48;
+            break;
+        case "6hours":
+            timeMultiplier = 72;
+            break;
+        case "12hours":
+            timeMultiplier = 144;
             break;
         case "24hours":
             timeMultiplier = -1;
@@ -283,7 +295,7 @@ async function updateCryptoCurrencyData(testFunc: (() => any) | undefined = unde
                     where(
                         and(eq(marketObj.schema.crypto_symbol, cryptoCurr.symbol),
                             eq(marketObj.schema.last_updated, candidateTime)));
-                
+
             }
 
         }
