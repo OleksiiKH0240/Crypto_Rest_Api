@@ -5,6 +5,7 @@ import { migrate } from "drizzle-orm/mysql2/migrator";
 import * as schemas from "./schemas";
 
 
+
 dotenv.config();
 
 // docker run --name mysql -p 3306:3306 -e MYSQL_DATABASE=crypto_markets -e MYSQL_USER=mysql -e MYSQL_PASSWORD=mysql -e MYSQL_ROOT_PASSWORD=mysql -d mysql
@@ -70,7 +71,7 @@ function setMinutesToTime(timeStr: string, minutes: number){
 export { db, connection, getTimeFromDate, getMinutesFromTime, setMinutesToTime, getHoursFromTime, setHoursToTime };
 
 // await db.insert(schemas.CoinMarketCapSchema).values({ crypto_symbol: "BTC", last_updated: getTimeFromDate(new Date()) });
-// const result = await db.select().from(schemas.CoinMarketCapSchema);
+
 // console.log(setMinutesToTime(getTimeFromDate(new Date()), 24));
 // const list = await db.selectDistinct({ last_updated: schemas.CoinMarketCapSchema.last_updated }).from(schemas.CoinMarketCapSchema);
 // console.log(list.length);

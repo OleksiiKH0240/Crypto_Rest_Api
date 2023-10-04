@@ -80,6 +80,9 @@ async function getCryptoCurrencyRate(cryptoCurrencySymbol: string = "BTC", marke
 
     let timeMultiplier: any;
     switch (lastUpdatedPeriod) {
+        case "5mins":
+            timeMultiplier = 1;
+            break;
         case "15mins":
             timeMultiplier = 3;
             break;
@@ -223,7 +226,7 @@ async function updateCryptoCurrencyData(testFunc: (() => any) | undefined = unde
                 let candidateTime;
 
                 if (cryptoCurr.symbol == "BTC") {
-                    console.log(`now: ${now}, candidatesList: ${candidatesList.join(", ")}`);
+                    console.log(`now: ${now}, candidatesList: ${candidatesList.map((value) => value.last_updated).join(", ")}`);
                 }
 
                 if (candidatesList.length == 1) candidateTime = now;
@@ -283,7 +286,14 @@ async function updateCryptoCurrencyData(testFunc: (() => any) | undefined = unde
                         console.log(`filtered candidatesList: ${candidatesList.map((value) => value.last_updated).join(", ")}`);
                     }
 
-                    candidateTime = candidatesList[0].last_updated;
+
+                    try {
+                        candidateTime = candidatesList[0].last_updated;
+                    } catch (error) {
+                        console.log("error occured")
+                        console.log(error);
+                        continue;
+                    }
 
                     if (cryptoCurr.symbol == "BTC") {
                         console.log(`chosenTime: ${candidateTime}`);
@@ -303,7 +313,7 @@ async function updateCryptoCurrencyData(testFunc: (() => any) | undefined = unde
     console.log("database was updated\n");
 }
 
-const loop = setInterval(updateCryptoCurrencyData, timeStep)
+// const loop = setInterval(updateCryptoCurrencyData, timeStep)
 
 // clearInterval(loop);
 
@@ -347,8 +357,8 @@ async function updateCryptoCurrencyDataTest(stepsNumber: number = 288) {
     console.log("test database was updated\n");
 }
 
-// await updateCryptoCurrencyDataTest();
-
+await updateCryptoCurrencyDataTest();
+// await updateCryptoCurrencyData();
 // console.log(await getCryptoCurrencyRate("BTC", "CoinMarketCap", "1hour"));
 
 // console.log((getHoursFromTime("00:10") - getHoursFromTime("23:50")) < 0);
