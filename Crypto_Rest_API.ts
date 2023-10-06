@@ -21,6 +21,12 @@ app.get("/", async (req, res) => {
     res.status(200).json(response);
 })
 
+app.get("/availableCryptoCurrencies", async (req, res) => {
+    const availableSymbols = getCryptoCurrencyDetails("symbol");
+
+    res.status(200).json({ "availableSymbols": availableSymbols });
+})
+
 app.listen(80, () => {
     console.log("app is listening on 80 port.")
 })
@@ -153,10 +159,12 @@ async function getCryptoCurrencyRate(cryptoCurrencySymbol: string = "BTC", marke
             return "time period was not recorded";
         }
 
+        // console.log(candidatesList[0].price);
         resultPrice += candidatesList[0].price;
 
     }
     resultPrice = resultPrice / markets.length;
+    // console.log(markets.length);
 
     return {
         "market": market,
@@ -313,7 +321,7 @@ async function updateCryptoCurrencyData(testFunc: (() => any) | undefined = unde
     console.log("database was updated\n");
 }
 
-// const loop = setInterval(updateCryptoCurrencyData, timeStep)
+const loop = setInterval(updateCryptoCurrencyData, timeStep)
 
 // clearInterval(loop);
 
@@ -357,7 +365,7 @@ async function updateCryptoCurrencyDataTest(stepsNumber: number = 288) {
     console.log("test database was updated\n");
 }
 
-await updateCryptoCurrencyDataTest();
+// await updateCryptoCurrencyDataTest();
 // await updateCryptoCurrencyData();
 // console.log(await getCryptoCurrencyRate("BTC", "CoinMarketCap", "1hour"));
 
