@@ -27,8 +27,8 @@ app.get("/availableCryptoCurrencies", async (req, res) => {
     res.status(200).json({ "availableSymbols": availableSymbols });
 })
 
-app.listen(80, () => {
-    console.log("app is listening on 80 port.")
+app.listen(8080, () => {
+    console.log("app is listening on 8080 port.")
 })
 
 
