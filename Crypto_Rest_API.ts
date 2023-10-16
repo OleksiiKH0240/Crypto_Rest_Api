@@ -4,6 +4,7 @@ import { getCoinMarketCapRate, getCoinBaseRate, getCoinStatsRate, getKucoinRate,
 import * as schemas from "./schemas";
 import { db, getTimeFromDate, getMinutesFromTime, setMinutesToTime, setHoursToTime, getHoursFromTime } from "./database";
 import { eq, and, between } from 'drizzle-orm';
+import { MySqlSchema, MySqlTableWithColumns } from 'drizzle-orm/mysql-core';
 
 
 const app = express();
@@ -36,11 +37,16 @@ app.listen(8080, () => {
 // -----------------------------------------------------------------
 const cryptoSymbolsSet = new Set(getCryptoCurrencyDetails("symbol"))
 
-const marketsObjs: { [x: string]: any } = {
+
+const marketsObjs: {
+    [x: string]: {
+        func: Function,
+        schema: MySqlTableWithColumns<any>
+    }
+} = {
     "CoinMarketCap": {
         "func": getCoinMarketCapRate,
-        "schema": schemas.CoinMarketCapSchema,
-        "lastData": {}
+        "schema": schemas.CoinMarketCapSchema
     },
     "CoinBase": {
         "func": getCoinBaseRate,
@@ -84,7 +90,7 @@ async function getCryptoCurrencyRate(cryptoCurrencySymbol: string = "BTC", marke
         markets = Object.values(marketsObjs);
     }
 
-    let timeMultiplier: any;
+    let timeMultiplier: number;
     switch (lastUpdatedPeriod) {
         case "5mins":
             timeMultiplier = 1;
